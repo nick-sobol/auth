@@ -1,0 +1,5 @@
+sanic==0.8.3
+marshmallow==2.16.3
+SQLAlchemy==1.2.15
+sanic-jinja2==0.7.3
+python-dotenv==0.10.1

@@ -1,0 +1,1 @@
+from .main import bp as auth_blueprint
