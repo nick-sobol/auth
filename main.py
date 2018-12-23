@@ -1,12 +1,15 @@
 from sanic import Sanic
 from apps.auth import auth_blueprint
-from settings import settings
-
+import config
 
 # Setup Sanic app
 app = Sanic(__name__)
-app.config.from_object(settings)
-settings.jinja.init_app(app)
+app.config.from_object(config)
+config.JINJA.init_app(app)
+
+
+# Setup static files
+app.static('static/auth', './static/auth', name='static_auth')
 
 
 # Install blueprints
