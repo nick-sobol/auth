@@ -1,7 +1,9 @@
 from sanic import Blueprint
 from sanic.views import HTTPMethodView
 from sanic.response import text
+
 from config import JINJA as jinja
+
 
 bp = Blueprint('auth')
 
@@ -16,12 +18,14 @@ class RegisterView(AuthView):
 
     async def post(self, request):
         userdata = {
-            'username': request.form.get('username'),
+            'name': request.form.get('username'),
             'password': request.form.get('password'),
             'confirm_password': request.form.get('confirm-password'),
         }
 
-        return text(userdata)
+
+
+        return text('request succeed')
 
 
 class LoginView(AuthView):

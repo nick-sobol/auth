@@ -1,4 +1,6 @@
-from sanic_jwt import exceptions
+from sanic_jwt.exceptions import AuthenticationFailed
+from exceptions import AuthenticationForbidden
+
 from .serializers import auth_schema
 
 
@@ -10,7 +12,9 @@ async def authenticate(request, *args, **kwargs):
 
     user, errors = auth_schema.load(userdata)
 
-    if errors:
-        raise exceptions.AuthenticationFailed('Missing username or password')
+    if not user:
+        raise AuthenticationForbidden(
+            'User with such credentials does not exist'
+        )
 
-    return dict(user_id=3)
+    return user
