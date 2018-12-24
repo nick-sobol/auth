@@ -1,4 +1,4 @@
-from sanic import Blueprint, response
+from sanic import Blueprint
 from sanic.views import HTTPMethodView
 from sanic.response import text
 from config import JINJA as jinja
@@ -13,6 +13,7 @@ class AuthView(HTTPMethodView):
 
 
 class RegisterView(AuthView):
+
     async def post(self, request):
         userdata = {
             'username': request.form.get('username'),
@@ -24,6 +25,7 @@ class RegisterView(AuthView):
 
 
 class LoginView(AuthView):
+
     async def post(self, request):
         return text(request.form)
 

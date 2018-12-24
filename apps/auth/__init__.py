@@ -1,1 +1,1 @@
-from .views import bp as auth_blueprint
+from .backend import authenticate
