@@ -8,7 +8,7 @@ from apps.auth import authenticate
 
 # Setup Sanic app
 app = Sanic(__name__)
-Initialize(app, authenticate=authenticate)
+Initialize(app, authenticate=authenticate, access_token_name='jwt')
 app.config.from_object(config)
 config.JINJA.init_app(app)
 

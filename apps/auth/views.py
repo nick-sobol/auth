@@ -23,8 +23,6 @@ class RegisterView(AuthView):
             'confirm_password': request.form.get('confirm-password'),
         }
 
-
-
         return text('request succeed')
 
 
