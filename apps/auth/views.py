@@ -1,53 +1,34 @@
-from sanic import Blueprint
-from sanic.views import HTTPMethodView
-from sanic.response import text
+from sanic_jwt import BaseEndpoint
 
 from config import JINJA as jinja
 
 
-bp = Blueprint('auth')
-
-
-class AuthView(HTTPMethodView):
+class Register(BaseEndpoint):
 
     async def get(self, request):
         return jinja.render('auth/register.html', request)
 
+    async def post(self, request, *args, **kwargs):
 
-class RegisterView(AuthView):
+        user = await request.app.auth.authenticate(request, *args, **kwargs)
 
-    async def post(self, request):
-        userdata = {
-            'name': request.form.get('username'),
-            'password': request.form.get('password'),
-            'confirm_password': request.form.get('confirm-password'),
-        }
+        access_token, output = await self.responses.get_access_token_output(
+            request,
+            user,
+            self.config,
+            self.instance
+        )
 
-        return text('request succeed')
+        response = self.responses.get_token_reponse(
+            request,
+            access_token,
+            output,
+            config=self.config
+        )
 
-
-class LoginView(AuthView):
-
-    async def post(self, request):
-        return text(request.form)
-
-
-bp.add_route(RegisterView.as_view(), '/register', name='Register')
-bp.add_route(LoginView.as_view(), '/login', name='Login')
+        return response
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+my_views = (
+    ('/register', Register),
+)

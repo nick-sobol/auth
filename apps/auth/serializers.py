@@ -12,7 +12,7 @@ class AuthSchema(Schema):
                              validate=validate.Regexp('^[a-zA-Z]{4,32}$'))
 
     password = fields.String(required=True,
-                             validate=validate.Regexp('^[a-z]{4,32}$'))
+                             validate=validate.Regexp('^[a-z0-9]{4,32}$'))
 
     confirm_password = fields.String(allow_none=True)
 
@@ -29,7 +29,9 @@ class AuthSchema(Schema):
     @pre_load
     def hash_passwords(self, data):
 
-        data['password'] = hash_password(data['password'])
+        if data.get('password'):
+            data['password'] = hash_password(data['password'])
+
         if data.get('confirm_password'):
             data['confirm_password'] = hash_password(data['confirm_password'])
 
