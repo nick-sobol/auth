@@ -35,14 +35,14 @@
                     </div>
                     <hr>
                 </div>
-                <div class="panel-homebody">
+                <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="register-form"
-                                onsubmit="onUserSubmit(
-                                    '{{ url_for('auth_bp.RegisterView') }}',
-                                    '{{ url_for('home.home') }}',
-                                     document.getElementById('login-form'))"
+                            <form id="login-form"
+                                  onsubmit="onUserSubmit(
+                                      '{{ url_for('auth_bp.LoginView') }}',
+                                      '{{ url_for('home.home') }}',
+                                      document.getElementById('login-form'))"
 
                                   method="post">
                                 <div class="form-group">
@@ -58,21 +58,14 @@
                                            placeholder="Password">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password"
-                                           name="confirm_password"
-                                           id="confirm-password" tabindex="2"
-                                           class="form-control"
-                                           placeholder="Confirm Password">
-                                </div>
-                                <div class="form-group">
                                     <div class="row">
                                         <div class="col-sm-6 col-sm-offset-3">
                                             <input type="submit"
-                                                   name="register-submit"
-                                                   id="register-submit"
+                                                   name="login-submit"
+                                                   id="login-submit"
                                                    tabindex="4"
-                                                   class="form-control btn btn-register"
-                                                   value="Register Now">
+                                                   class="form-control btn btn-login"
+                                                   value="Log In">
                                         </div>
                                     </div>
                                 </div>

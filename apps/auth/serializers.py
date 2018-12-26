@@ -11,8 +11,12 @@ class AuthSchema(Schema):
     username = fields.String(required=True,
                              validate=validate.Regexp('^[a-zA-Z]{4,32}$'))
 
-    password = fields.String(required=True,
-                             validate=validate.Regexp('^[a-z0-9]{4,32}$'))
+    password = fields.String(
+        required=True,
+        validate=validate.Regexp(
+            "^[A-Za-z\d@$!%*#?&]{8,}$"
+        )
+    )
 
     confirm_password = fields.String(allow_none=True)
 
@@ -22,20 +26,7 @@ class AuthSchema(Schema):
         if (data.get('confirm_password') and
                 data.get('password') != data.get('confirm_password')):
 
-            raise Forbidden('Passwords must be the same')
-
-        return True
-
-    @pre_load
-    def hash_passwords(self, data):
-
-        if data.get('password'):
-            data['password'] = hash_password(data['password'])
-
-        if data.get('confirm_password'):
-            data['confirm_password'] = hash_password(data['confirm_password'])
-
-        return data
+            raise Forbidden('Entered user passwords must be the same')
 
     @post_load
     def get_user_instance(self, data):
@@ -43,7 +34,8 @@ class AuthSchema(Schema):
 
         confirm_password = data.get('confirm_password')
 
-        user = User(username=data['username'], password=data['password'])
+        user = User(username=data['username'],
+                    password=hash_password(data['password']))
 
         db_user = (
             session.query(User).filter(User.username == user.username).first()

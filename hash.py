@@ -1,4 +1,5 @@
 import hashlib
+
 from config import SECRET_KEY
 
 

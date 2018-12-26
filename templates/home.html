@@ -1,0 +1,29 @@
+<DOCTYPE html></DOCTYPE>
+<html>
+<head>
+    <title>Auth</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css"
+          rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <script src="{{ url_for('static', name='static_home', filename='home.js') }}"></script>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', name='static_auth', filename='auth.css') }}">
+    <script src="{{ url_for('static', name='static_auth', filename='auth.js') }}"></script>
+</head>
+
+<body>
+<div class="container">
+
+    <a type="button"
+       onclick="logout('{{ url_for('auth_bp.LogoutView') }}',
+               '{{ url_for('auth_bp.LoginView') }}')"
+       class="form-control btn btn-register" id="login-form-link">
+
+        Logout
+    </a>
+
+</div>
+</body>
+</html>
