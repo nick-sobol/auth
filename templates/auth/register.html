@@ -8,8 +8,6 @@
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet"
           href="{{ url_for('static', name='static_auth', filename='auth.css') }}">
-
-    <script src="{{ url_for('static', name='static_auth', filename='auth.js') }}"></script>
 </head>
 
 <body>
@@ -21,16 +19,10 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col-xs-6">
-                             <a href="{{ url_for('auth_bp.RegisterView') }}"
-                                class="active" id="login-form-link">
-                                 Register
-                             </a>
+                             <a href="{{ url_for('auth_bp.RegisterView') }}" class="active" id="login-form-link">Register</a>
                         </div>
                         <div class="col-xs-6">
-                             <a href="{{ url_for('auth_bp.LoginView') }}"
-                                class="active" id="login-form-link">
-                                 Login
-                             </a>
+                             <a href="{{ url_for('auth_bp.LoginView') }}" class="active" id="login-form-link">Login</a>
                         </div>
                     </div>
                     <hr>
@@ -39,11 +31,7 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="register-form"
-                                onsubmit="onUserSubmit(
-                                    '{{ url_for('auth_bp.RegisterView') }}',
-                                    '{{ url_for('home.home') }}',
-                                     document.getElementById('login-form'))"
-
+                                  onsubmit="redirect('{{ url_for('home.home') }}')"
                                   method="post">
                                 <div class="form-group">
                                     <input type="text" name="username"

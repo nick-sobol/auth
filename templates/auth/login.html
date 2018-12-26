@@ -39,12 +39,10 @@
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="login-form"
-                                  onsubmit="onUserSubmit(
-                                      '{{ url_for('auth_bp.LoginView') }}',
-                                      '{{ url_for('home.home') }}',
-                                      document.getElementById('login-form'))"
-
-                                  method="post">
+                                  action="/auth/login"
+                                  onsubmit="redirect('{{ url_for('home.home') }}')"
+                                  method="post"
+                                  style="display: block;">
                                 <div class="form-group">
                                     <input type="text" name="username"
                                            id="username" tabindex="1"

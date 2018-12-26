@@ -8,6 +8,7 @@ from config import JINJA as jinja
 class AuthView(BaseEndpoint):
 
     async def post(self, request, *args, **kwargs):
+        # TODO: Return 201 when new user created
 
         user = (
             await request.app.auth.authenticate(request, *args, **kwargs)

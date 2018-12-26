@@ -20,7 +20,7 @@ class AuthSchema(Schema):
 
     confirm_password = fields.String(allow_none=True)
 
-    @validates_schema
+    @validates_schema(skip_on_field_errors=True)
     def validate_match(self, data):
 
         if (data.get('confirm_password') and

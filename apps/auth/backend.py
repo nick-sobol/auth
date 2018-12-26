@@ -15,7 +15,7 @@ async def authenticate(request, *args, **kwargs):
 
     if errors:
         raise AuthenticationFailed(
-            f'Credentials are invalid: {errors}'
+            f'{errors}'
         )
 
     return user
