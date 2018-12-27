@@ -1,7 +1,7 @@
 from sanic_jwt import BaseEndpoint
 from sanic.response import HTTPResponse
 from sanic_jwt.decorators import protected
-
+from sanic.response import redirect
 from config import JINJA as jinja
 
 
@@ -25,7 +25,7 @@ class AuthView(BaseEndpoint):
 
         response.cookies['access_token'] = access_token
 
-        return response
+        return redirect('/home', headers=response.headers)
 
 
 class RegisterView(AuthView):
