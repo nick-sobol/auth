@@ -7,10 +7,9 @@ from hash import hash_password
 from .models import User
 
 
-class AuthSchema(Schema):
+class AuthScheme(Schema):
     username = fields.String(required=True,
                              validate=validate.Regexp('^[a-zA-Z]{4,32}$'))
-
     password = fields.String(
         required=True,
         validate=validate.Regexp(
@@ -18,41 +17,45 @@ class AuthSchema(Schema):
         )
     )
 
-    confirm_password = fields.String(allow_none=True)
+
+class LoginSchema(AuthScheme):
+
+    @post_load
+    def get_user_instance(self, data):
+        db_user = User.get_user(data)
+
+        if db_user and hash_password(data['password']) != db_user.password:
+            raise BadRequest('User entered password do not match')
+
+        return db_user
+
+
+class RegisterSchema(AuthScheme):
+
+    confirm_password = fields.String(required=True)
 
     @validates_schema(skip_on_field_errors=True)
     def validate_match(self, data):
 
-        if (data.get('confirm_password') and
-                data.get('password') != data.get('confirm_password')):
-
+        if data.get('password') != data.get('confirm_password'):
             raise BadRequest('Entered user passwords must be the same')
 
     @post_load
-    def get_user_instance(self, data):
+    def register_user(self, data):
+        print('register_enabled')
         session = session_factory()
 
-        confirm_password = data.get('confirm_password')
+        if User.get_user(data, session):
+            raise Forbidden('User with such username already exists')
 
         user = User(username=data['username'],
                     password=hash_password(data['password']))
 
-        db_user = (
-            session.query(User).filter(User.username == user.username).first()
-        )
-
-        if db_user and confirm_password:
-            raise Forbidden('User with such username already exists')
-        elif not db_user and not confirm_password:
-            raise Forbidden('User with such username does not exist')
-        elif db_user and db_user.password != user.password:
-            raise Forbidden('User passwords do not match')
-
-        if not db_user and confirm_password:
-            session.add(user)
-            session.commit()
+        session.add(user)
+        session.commit()
 
         return user
 
 
-auth_schema = AuthSchema()
+login_schema = LoginSchema()
+register_schema = RegisterSchema()

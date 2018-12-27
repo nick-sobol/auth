@@ -5,39 +5,40 @@ from sanic.response import redirect
 from config import JINJA as jinja
 
 
-class AuthView(BaseEndpoint):
+class RegisterView(BaseEndpoint):
+
+    async def get(self, request):
+        return jinja.render('auth/register.html', request)
 
     async def post(self, request, *args, **kwargs):
-        # TODO: Return 201 when new user created
+        request.form['register_enabled'] = [True]
 
-        user = (
-            await request.app.auth.authenticate(request, *args, **kwargs)
-        )
+        await request.app.auth.authenticate(request, *args, **kwargs)
 
-        access_token, output = await self.responses.get_access_token_output(
+        return redirect('/auth/login')
+
+
+class LoginView(BaseEndpoint):
+
+    async def get(self, request):
+        return jinja.render('auth/login.html', request)
+
+    async def post(self, request, *args, **kwargs):
+
+        user = await request.app.auth.authenticate(request, *args, **kwargs)
+
+        access_token, _ = await self.responses.get_access_token_output(
             request,
             user,
             self.config,
             self.instance
         )
 
-        response = HTTPResponse(status=200)
+        response = HTTPResponse()
 
         response.cookies['access_token'] = access_token
 
         return redirect('/home', headers=response.headers)
-
-
-class RegisterView(AuthView):
-
-    async def get(self, request):
-        return jinja.render('auth/register.html', request)
-
-
-class LoginView(AuthView):
-
-    async def get(self, request):
-        return jinja.render('auth/login.html', request)
 
 
 class LogoutView(BaseEndpoint):
@@ -48,7 +49,6 @@ class LogoutView(BaseEndpoint):
         del response.cookies['access_token']
 
         return response
-
 
 
 jwt_views = (
