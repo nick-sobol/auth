@@ -9,7 +9,7 @@ async def authenticate(request, *args, **kwargs):
         'password': request.form.get('password'),
         'confirm_password': request.form.get('confirm_password'),
     }
-    print(bool(request.form))
+
     user, errors = (
         register_schema.load(userdata) if request.form.get('register_enabled')
         else login_schema.load(userdata)

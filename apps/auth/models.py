@@ -1,6 +1,5 @@
 from sqlalchemy import Column, Integer, String
 
-from exceptions import BadRequest
 from database import Base, session_factory
 
 

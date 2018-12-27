@@ -1,7 +1,7 @@
 from sanic_jwt import BaseEndpoint
-from sanic.response import HTTPResponse
+from sanic.response import HTTPResponse, redirect
 from sanic_jwt.decorators import protected
-from sanic.response import redirect
+
 from config import JINJA as jinja
 
 
@@ -34,11 +34,12 @@ class LoginView(BaseEndpoint):
             self.instance
         )
 
-        response = HTTPResponse()
+        # Set access token Path
+        cookie_headers = {
+            'Set-Cookie': {'path': '/'},
+        }
 
-        response.cookies['access_token'] = access_token
-
-        return redirect('/home', headers=response.headers)
+        return redirect('/home', headers=cookie_headers)
 
 
 class LogoutView(BaseEndpoint):

@@ -42,7 +42,6 @@ class RegisterSchema(AuthScheme):
 
     @post_load
     def register_user(self, data):
-        print('register_enabled')
         session = session_factory()
 
         if User.get_user(data, session):
