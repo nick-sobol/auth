@@ -1,4 +1,4 @@
-from sanic_jwt.exceptions import AuthenticationFailed
+from exceptions import BadRequest
 
 from .serializers import auth_schema
 
@@ -14,8 +14,6 @@ async def authenticate(request, *args, **kwargs):
     user, errors = auth_schema.load(userdata)
 
     if errors:
-        raise AuthenticationFailed(
-            f'{errors}'
-        )
+        raise BadRequest(f'{errors}')
 
     return user

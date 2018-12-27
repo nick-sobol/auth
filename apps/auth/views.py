@@ -21,13 +21,6 @@ class AuthView(BaseEndpoint):
             self.instance
         )
 
-        self.responses.get_token_reponse(
-            request,
-            access_token,
-            output,
-            config=self.config
-        )
-
         response = HTTPResponse(status=200)
 
         response.cookies['access_token'] = access_token

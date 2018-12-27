@@ -1,7 +1,7 @@
 from marshmallow import (Schema, fields, validates_schema, validate,
-                         post_load, pre_load)
+                         post_load)
 
-from exceptions import Forbidden
+from exceptions import BadRequest, Forbidden
 from database import session_factory
 from hash import hash_password
 from .models import User
@@ -14,7 +14,7 @@ class AuthSchema(Schema):
     password = fields.String(
         required=True,
         validate=validate.Regexp(
-            "^[A-Za-z\d@$!%*#?&]{8,}$"
+            "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
         )
     )
 
@@ -26,7 +26,7 @@ class AuthSchema(Schema):
         if (data.get('confirm_password') and
                 data.get('password') != data.get('confirm_password')):
 
-            raise Forbidden('Entered user passwords must be the same')
+            raise BadRequest('Entered user passwords must be the same')
 
     @post_load
     def get_user_instance(self, data):
