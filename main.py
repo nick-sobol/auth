@@ -22,9 +22,8 @@ config.JINJA.init_app(app)
 
 
 # Setup static files
-app.static('static/auth', './static/auth', name='static_auth')
 app.static('static/', './static/', name='static_home')
-
+app.static('static/auth', './static/auth', name='static_auth')
 
 # Install blueprints
 app.blueprint(home_blueprint)

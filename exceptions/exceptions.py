@@ -1,9 +1,9 @@
-from sanic_jwt.exceptions import SanicJWTException
+from sanic.exceptions import SanicException
 
 
-class Forbidden(SanicJWTException):
+class Forbidden(SanicException):
     status_code = 403
 
 
-class BadRequest(SanicJWTException):
+class BadRequest(SanicException):
     status_code = 400

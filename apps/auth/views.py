@@ -1,5 +1,6 @@
-from sanic_jwt import BaseEndpoint
+from sanic.cookies import Cookie
 from sanic.response import HTTPResponse, redirect
+from sanic_jwt import BaseEndpoint
 from sanic_jwt.decorators import protected
 
 from config import JINJA as jinja
@@ -7,7 +8,7 @@ from config import JINJA as jinja
 
 class RegisterView(BaseEndpoint):
 
-    async def get(self, request):
+    def get(self, request):
         return jinja.render('auth/register.html', request)
 
     async def post(self, request, *args, **kwargs):
@@ -20,7 +21,7 @@ class RegisterView(BaseEndpoint):
 
 class LoginView(BaseEndpoint):
 
-    async def get(self, request):
+    def get(self, request):
         return jinja.render('auth/login.html', request)
 
     async def post(self, request, *args, **kwargs):
@@ -34,18 +35,19 @@ class LoginView(BaseEndpoint):
             self.instance
         )
 
-        # Set access token Path
-        cookie_headers = {
-            'Set-Cookie': {'path': '/'},
+        cookie = Cookie('access_token', access_token)
+        cookie['path'] = '/'
+        headers = {
+            'Set-Cookie': cookie,
         }
 
-        return redirect('/home', headers=cookie_headers)
+        return redirect('/home', headers=headers)
 
 
 class LogoutView(BaseEndpoint):
     decorators = [protected()]
 
-    async def delete(self, request):
+    def delete(self, request):
         response = HTTPResponse(204)
         del response.cookies['access_token']
 

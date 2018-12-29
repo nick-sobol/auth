@@ -1,13 +1,9 @@
-from marshmallow import (Schema, fields, validates_schema, validate,
-                         post_load)
+from marshmallow import Schema, fields, validates_schema, validate
 
-from exceptions import BadRequest, Forbidden
-from database import session_factory
-from hash import hash_password
-from .models import User
+from exceptions import BadRequest
 
 
-class AuthScheme(Schema):
+class LoginSchema(Schema):
     username = fields.String(required=True,
                              validate=validate.Regexp('^[a-zA-Z]{4,32}$'))
     password = fields.String(
@@ -17,20 +13,11 @@ class AuthScheme(Schema):
         )
     )
 
-
-class LoginSchema(AuthScheme):
-
-    @post_load
-    def get_user_instance(self, data):
-        db_user = User.get_user(data)
-
-        if db_user and hash_password(data['password']) != db_user.password:
-            raise BadRequest('User entered password do not match')
-
-        return db_user
+    def handle_error(self, exc, data):
+        raise BadRequest(f'{exc}', status_code=422)
 
 
-class RegisterSchema(AuthScheme):
+class RegisterSchema(LoginSchema):
 
     confirm_password = fields.String(required=True)
 
@@ -38,23 +25,10 @@ class RegisterSchema(AuthScheme):
     def validate_match(self, data):
 
         if data.get('password') != data.get('confirm_password'):
-            raise BadRequest('Entered user passwords must be the same')
-
-    @post_load
-    def register_user(self, data):
-        session = session_factory()
-
-        if User.get_user(data, session):
-            raise Forbidden('User with such username already exists')
-
-        user = User(username=data['username'],
-                    password=hash_password(data['password']))
-
-        session.add(user)
-        session.commit()
-
-        return user
+            raise BadRequest({
+                'password': 'Entered user passwords must be the same',
+            })
 
 
-login_schema = LoginSchema()
-register_schema = RegisterSchema()
+login_schema = LoginSchema(strict=True)
+register_schema = RegisterSchema(strict=True)
