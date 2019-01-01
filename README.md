@@ -11,3 +11,8 @@ In order to start running the project you need to:
 **DB_URL** - string url that leads to your db
 
 **SECRET_KEY** - key that is used for hashing passwords and generating authentication tokens
+
+Endpoints are the following: 
+* /auth/login
+* /auth/register
+* /home - accessable only when user has been properly authenticated
