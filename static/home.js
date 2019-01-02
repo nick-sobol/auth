@@ -1,7 +1,7 @@
 function logout(request_route, redirect_route) {
 
     fetch(request_route, {
-        method: 'delete',
+        method: 'post',
     })
         .then(response => {
             window.history.pushState({}, "", redirect_route);

@@ -5,6 +5,8 @@ from sanic_jwt.decorators import protected
 
 from config import JINJA as jinja
 
+from .backend import authenticate
+
 
 class RegisterView(BaseEndpoint):
 
@@ -14,7 +16,7 @@ class RegisterView(BaseEndpoint):
     async def post(self, request, *args, **kwargs):
         request.form['register_enabled'] = [True]
 
-        await request.app.auth.authenticate(request, *args, **kwargs)
+        await authenticate(request, *args, **kwargs)
 
         return redirect('/auth/login')
 
@@ -26,7 +28,7 @@ class LoginView(BaseEndpoint):
 
     async def post(self, request, *args, **kwargs):
 
-        user = await request.app.auth.authenticate(request, *args, **kwargs)
+        user = await authenticate(request, *args, **kwargs)
 
         access_token, _ = await self.responses.get_access_token_output(
             request,
@@ -47,8 +49,8 @@ class LoginView(BaseEndpoint):
 class LogoutView(BaseEndpoint):
     decorators = [protected()]
 
-    def delete(self, request):
-        response = HTTPResponse(204)
+    def post(self, request):
+        response = HTTPResponse(status=204)
         del response.cookies['access_token']
 
         return response
