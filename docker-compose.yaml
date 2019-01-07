@@ -1,0 +1,32 @@
+version: "3"
+
+networks:
+  sanic-network:
+    driver: bridge
+
+services:
+  db:
+    image: postgres:11
+    container_name: postgres_db
+    restart: on-failure
+    env_file:
+      - .env
+    networks:
+      - sanic-network
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web_app
+    command: >
+      bash -c "cd migrations/
+      && ./liquibase-migrate.sh
+      && cd .. && python3 main.py"
+    env_file: .env
+    links:
+      - db
+    ports:
+      - "8000:8000"
+    restart: on-failure
+    networks:
+      - sanic-network
