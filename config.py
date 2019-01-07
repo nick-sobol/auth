@@ -10,7 +10,7 @@ load_dotenv(envpath)
 DB_USER = environ.get('POSTGRES_USER')
 DB_PASSWORD = environ.get('POSTGRES_PASSWORD')
 DB_NAME = environ.get('POSTGRES_DB')
-DB_PORT = environ.get('POSTGRES_PORT')
+DB_PORT = environ.get('POSTGRES_PORT', 5432)
 DB_HOST = environ.get('POSTGRES_HOST')
 DB_URL = f'postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 
