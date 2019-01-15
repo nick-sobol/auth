@@ -1,5 +1,5 @@
 from database import get_engine
-from exceptions import BadRequest, Forbidden
+from exceptions import ValidationError, Forbidden
 from hash import hash_password
 from sanic.exceptions import NotFound
 
@@ -46,7 +46,7 @@ async def authenticate(request, *args, **kwargs):
                 'username': 'User with such username does not exist',
             })
         if hash_password(userdata['password']) != db_user['password']:
-            raise BadRequest({
+            raise ValidationError({
                 'password': 'User entered incorrect password',
             })
 

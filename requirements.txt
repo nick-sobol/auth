@@ -6,3 +6,5 @@ python-dotenv==0.10.1
 sanic-jwt==1.2.1
 aiopg==0.15.0
 psycopg2-binary==2.7.6.1
+pytest==4.1.1
+pytest-sanic==0.1.15
