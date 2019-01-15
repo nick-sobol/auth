@@ -1,1 +1,1 @@
-from .exceptions import BadRequest, Forbidden
+from .exceptions import ValidationError, Forbidden

@@ -1,6 +1,5 @@
 from sqlalchemy import Table, Column, Integer, String, MetaData
-from database import get_engine, get_engine
-
+from database import get_engine
 
 metadata = MetaData()
 

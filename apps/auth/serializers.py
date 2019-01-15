@@ -1,6 +1,6 @@
 from marshmallow import Schema, fields, validates_schema, validate
 
-from exceptions import BadRequest
+from exceptions import ValidationError
 
 
 class LoginSchema(Schema):
@@ -9,12 +9,12 @@ class LoginSchema(Schema):
     password = fields.String(
         required=True,
         validate=validate.Regexp(
-            "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$"
+            "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,12}$"
         )
     )
 
     def handle_error(self, exc, data):
-        raise BadRequest(f'{exc}', status_code=422)
+        raise ValidationError(f'{exc}')
 
 
 class RegisterSchema(LoginSchema):
@@ -25,7 +25,7 @@ class RegisterSchema(LoginSchema):
     def validate_match(self, data):
 
         if data.get('password') != data.get('confirm_password'):
-            raise BadRequest({
+            raise ValidationError({
                 'password': 'Entered user passwords must be the same',
             })
 

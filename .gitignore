@@ -1,5 +1,6 @@
 .idea/
 __pycache__/
+.pytest_cache/
 .env
-.env.test
+.env_test
 venv/
