@@ -33,4 +33,4 @@ async def create_user(test_cli, clear_db_tables):
 
 @pytest.fixture
 async def login_user(test_cli, create_user):
-    yield await test_cli.post('/auth/login', data=UserData.valid_data)
+    return await test_cli.post('/auth/login', data=UserData.valid_data)

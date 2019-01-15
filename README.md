@@ -5,7 +5,16 @@ In order to start launch the project **locally** you need to:
 
 - create **.env** file in root folder and put there all required environment variables listed below
 - migrate changesets from **migration** folder using **./liquibase-migrate.sh** command
-- install all needed libraries from **requirements.txt** file
+- run **make setup** in root folder
+- run **make run-dev** in root folder
+
+#
+In order to launch tests you need to:
+
+- create **.env_test** file in root folder and put there all required environment variables listed below
+- migrate changesets from **migration** folder using **./liquibase-migrate.sh** command
+- run **make setup** in root folder
+- run **make run-test** in root folder
 
 #
 
