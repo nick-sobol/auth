@@ -1,20 +1,23 @@
 
-# Authentication system project launching
+# Authentication project launching
 
-In order to start launch the project **locally** you need to:
+Create Environment File(s):
+- create **.env** (for local launching) and/or **.env_test** file (for test launching) in a root folder and put there all required environment variables listed below
+- run **export $(cat .env)** and/or **export $(cat .env_test)**
 
-- create **.env** file in root folder and put there all required environment variables listed below
+
+Build Project:
 - migrate changesets from **migration** folder using **./liquibase-migrate.sh** command
-- run **make setup** in root folder
-- run **make run-dev** in root folder
+- run **make setup** in a root folder
+
+
+Run Locally:
+- run **make run-dev** in a root folder
 
 #
-In order to launch tests you need to:
 
-- create **.env_test** file in root folder and put there all required environment variables listed below
-- migrate changesets from **migration** folder using **./liquibase-migrate.sh** command
-- run **make setup** in root folder
-- run **make run-test** in root folder
+Run Tests:
+- run **make run-test** in a root folder
 
 #
 

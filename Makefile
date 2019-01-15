@@ -28,8 +28,8 @@ clean:
 	@rm -rf venv/
 
 .PHONY: run-dev
-run-dev: .env_test
-	export $(shell cat .env_test); \
+run-dev: .env
+	export $(shell cat .env); \
 	source ./venv/bin/activate; \
 	python main.py
 
