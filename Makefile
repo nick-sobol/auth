@@ -12,7 +12,7 @@ help:
 	@echo '2. Testing:'
 	@echo '  make run-test          Run tests'
 	@echo ''
-	@echo '5. Running:'
+	@echo '3. Running:'
 	@echo '  make run-dev       Run locally using dev server'
 	@echo ''
 
